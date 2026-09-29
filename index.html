@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universo dos Icebergs - Portal Completo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 10%;
+            background: rgba(15, 23, 42, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #38bdf8;
+        }
+
+        /* Hero */
+        header.hero-section {
+            background: linear-gradient(rgba(2, 6, 23, 0.7), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        header.hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #f8fafc;
+        }
+
+        header.hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #94a3b8;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #0284c7;
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0369a1;
+            transform: scale(1.05);
+        }
+
+        /* Sections */
+        .container {
+            padding: 100px 10% 80px 10%;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            color: #38bdf8;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            text-align: left;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid #334155;
+        }
+
+        .card h3 {
+            color: #38bdf8;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Fact Box */
+        .fact-box {
+            background: #1e293b;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+
+        #fact-text {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #cbd5e1;
+        }
+
+        /* Game & Simulator Area */
+        .interactive-section {
+            background: #090d16;
+        }
+
+        .game-wrapper {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 650px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+        }
+
+        canvas {
+            background: #0284c7;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .option-btn {
+            background-color: #334155;
+            color: white;
+            border: 1px solid #475569;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+
+        .option-btn:hover {
+            background-color: #0284c7;
+        }
+
+        /* Quiz Estático separado */
+        .quiz-card {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: left;
+            border: 1px solid #334155;
+        }
+
+        .quiz-card h3 {
+            color: #38bdf8;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options label {
+            display: block;
+            background: #0f172a;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #334155;
+            transition: background 0.2s;
+        }
+
+        .quiz-options label:hover {
+            background: #1e293b;
+        }
+
+        footer {
+            background-color: #020617;
+            color: #64748b;
+            text-align: center;
+            padding: 25px;
+            font-size: 0.9rem;
+            border-top: 1px solid #1e293b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegação -->
+    <nav class="navbar">
+        <div class="logo">🧊 Portal Iceberg</div>
+        <ul class="nav-links">
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#curiosidades">Curiosidades</a></li>
+            <li><a href="#jogo">Mini-Jogo</a></li>
+            <li><a href="#quiz">Quiz Teórico</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero-section">
+        <h1>O Mundo Fascinante dos Icebergs</h1>
+        <p>Explore conceitos científicos, jogue nosso desafio polar e teste seus conhecimentos.</p>
+        <a href="#sobre" class="btn">Começar Exploração</a>
+    </header>
+
+    <!-- Sobre -->
+    <section id="sobre" class="container">
+        <h2>O que são Icebergs?</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Formação</h3>
+                <p>Nascem do desprendimento (calving) de pedaços de gelo de geleiras ou plataformas continentais nas regiões polares.</p>
+            </div>
+            <div class="card">
+                <h3>Composição</h3>
+                <p>Apesar de flutuarem no oceano salgado, são formados por neve compactada ao longo de milênios, sendo compostos inteiramente de água doce.</p>
+            </div>
+            <div class="card">
+                <h3>A Regra dos 90%</h3>
+                <p>Cerca de 90% da massa de um iceberg permanece oculta sob a superfície da água devido à relação de densidade com o oceano.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curiosidades -->
+    <section id="curiosidades" class="container" style="background: #0b1329;">
+        <h2>Você Sabia?</h2>
+        <div class="fact-box">
+            <p id="fact-text">Clique no botão para descobrir um fato impressionante sobre os gigantes de gelo.</p>
+            <button id="fact-btn" class="btn">Próximo Fato</button>
+        </div>
+    </section>
+
+    <!-- Mini-Jogo Interativo -->
+    <section id="jogo" class="container interactive-section">
+        <h2>Desafio do Navio Polar</h2>
+        <p style="margin-bottom: 25px; color: #94a3b8;">Desvie dos blocos de gelo e responda perguntas científicas para pontuar!</p>
+        
+        <div class="game-wrapper">
+            <div class="game-header">
+                <span>Pontuação: <strong id="score">0</strong></span>
+                <span>Vidas: <strong id="lives">❤️❤️❤️</strong></span>
+            </div>
+
+            <div id="start-screen">
+                <button id="start-btn" class="btn">Iniciar Missão</button>
+            </div>
+
+            <div id="game-container" class="hidden">
+                <canvas id="gameCanvas" width="550" height="350"></canvas>
+                <p style="font-size: 0.8rem; color: #64748b; margin-top: 8px;">Use as setas <strong>Esquerda</strong> e <strong>Direita</strong></p>
+            </div>
+
+            <div id="quiz-screen" class="hidden">
+                <h3 style="color: #38bdf8; margin-bottom: 10px;">Alerta Científico! 🚢</h3>
+                <p id="question-text" style="color: #e2e8f0; margin-bottom: 15px;"></p>
+                <div id="options-container" class="options-grid"></div>
+            </div>
+
+            <div id="game-over-screen" class="hidden">
+                <h3 style="color: #ef4444; margin-bottom: 10px;">Fim de Jogo</h3>
+                <p style="color: #cbd5e1; margin-bottom: 15px;">Pontuação final: <span id="final-score">0</span></p>
+                <button id="restart-btn" class="btn">Jogar Novamente</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Teórico -->
+    <section id="quiz" class="container">
+        <h2>Quiz Teórico Adicional</h2>
+        <div style="max-width: 700px; margin: 0 auto;">
+            
+            <div class="quiz-card">
+                <h3>1. Qual é a principal diferença de formato entre Ártico e Antártica?</h3>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="err"> A) Ártico plano e Antártica pontiagudo.</label>
+                    <label><input type="radio" name="q1" value="cor"> B) Antártica plano/tabular e Ártico irregular/pontiagudo.</label>
+                    <label><input type="radio" name="q1" value="err"> C) Ambos possuem exatamente o mesmo formato.</label>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <h3>2. O que ocorreria com o nível do mar se todos os icebergs flutuantes derretessem?</h3>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="err"> A) Subiria cerca de 60 metros.</label>
+                    <label><input type="radio" name="q2" value="cor"> B) Praticamente não mudaria (já estão flutuando e deslocando água).</label>
+                    <label><input type="radio" name="q2" value="err"> C) Desceria devido à contração térmica.</label>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <h3>3. Como os cientistas monitoram grandes icebergs atualmente?</h3>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="cor"> B) Através de satélites de observação da Terra e boias.</label>
+                    <label><input type="radio" name="q3" value="err"> A) Apenas com mergulhadores e sonares costeiros.</label>
+                    <label><input type="radio" name="q3" value="err"> C) Usando redes de pesca rebocadas.</label>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2026 - Portal Definitivo dos Icebergs. Desenvolvido em um arquivo único.</p>
+    </footer>
+
+    <script>
+        // Fatos Dinâmicos
+        const facts = [
+            "O maior iceberg já registrado, chamado B-15, tinha cerca de 11.000 quilômetros quadrados — o tamanho da Jamaica!",
+            "Apesar de serem feitos de gelo, os icebergs podem durar anos vagando pelos oceanos antes de derreterem completamente.",
+            "O som de um iceberg derretendo debaixo d'água é conhecido como 'fritura' devido às bolhas de ar comprimido estourando.",
+            "A cor azul profunda de alguns icebergs ocorre porque o gelo foi altamente comprimido ao longo de séculos, absorvendo todas as cores da luz, exceto o azul."
+        ];
+
+        const factText = document.getElementById("fact-text");
+        const factBtn = document.getElementById("fact-btn");
+        let lastIndex = -1;
+
+        factBtn.addEventListener("click", () => {
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * facts.length);
+            } while (randomIndex === lastIndex);
+            lastIndex = randomIndex;
+            factText.style.opacity = 0;
+            setTimeout(() => {
+                factText.textContent = facts[randomIndex];
+                factText.style.opacity = 1;
+            }, 200);
+        });
+        factText.style.transition = "opacity 0.3s ease";
+
+        // Lógica do Mini-Jogo
+        const startScreen = document.getElementById("start-screen");
+        const gameContainer = document.getElementById("game-container");
+        const quizScreen = document.getElementById("quiz-screen");
+        const gameOverScreen = document.getElementById("game-over-screen");
+
+        const startBtn = document.getElementById("start-btn");
+        const restartBtn = document.getElementById("restart-btn");
+
+        const scoreDisplay = document.getElementById("score");
+        const livesDisplay = document.getElementById("lives");
+        const finalScoreDisplay = document.getElementById("final-score");
+
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let score = 0;
+        let lives = 3;
+        let gameInterval;
+        let obstacles = [];
+        let shipX = canvas.width / 2 - 15;
+        let shipY = canvas.height - 50;
+        let shipWidth = 30;
+        let shipHeight = 40;
+        let rightPressed = false;
+        let leftPressed = false;
+
+        const gameQuestions = [
+            {
+                q: "Qual porcentagem aproximada de um iceberg fica escondida debaixo d'água?",
+                options: ["10%", "50%", "90%"],
+                correct: 2
+            },
+            {
+                q: "Os icebergs são formados por qual tipo de água?",
+                options: ["Água Salgada", "Água Doce", "Água Misturada"],
+                correct: 1
+            },
+            {
+                q: "Como se chama o processo de desprendimento de gelo de uma geleira?",
+                options: ["Calving (Desprendimento)", "Derretimento térmico", "Congelamento profundo"],
+                correct: 0
+            }
+        ];
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowRight") rightPressed = true;
+            if (e.key === "ArrowLeft") leftPressed = true;
+        });
+
+        document.addEventListener("keyup", (e) => {
+            if (e.key === "ArrowRight") rightPressed = false;
+            if (e.key === "ArrowLeft") leftPressed = false;
+        });
+
+        startBtn.addEventListener("click", startGame);
+        restartBtn.addEventListener("click", startGame);
+
+        function startGame() {
+            score = 0;
+            lives = 3;
+            obstacles = [];
+            updateUI();
+            startScreen.classList.add("hidden");
+            gameOverScreen.classList.add("hidden");
+            quizScreen.classList.add("hidden");
+            gameContainer.classList.remove("hidden");
+            
+            if (gameInterval) clearInterval(gameInterval);
+            gameInterval = setInterval(updateGame, 1000 / 60);
+        }
+
+        function updateUI() {
+            scoreDisplay.textContent = score;
+            livesDisplay.textContent = "❤️".repeat(lives);
+        }
+
+        function spawnObstacle() {
+            if (Math.random() < 0.02) {
+                const x = Math.random() * (canvas.width - 40);
+                obstacles.push({ x: x, y: -40, width: 40, height: 40, speed: 3 + Math.random() * 2 });
+            }
+        }
+
+        function updateGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (rightPressed && shipX < canvas.width - shipWidth) shipX += 5;
+            else if (leftPressed && shipX > 0) shipX -= 5;
+
+            // Navio
+            ctx.fillStyle = "#f59e0b";
+            ctx.fillRect(shipX, shipY, shipWidth, shipHeight);
+            ctx.fillStyle = "#ef4444";
+            ctx.fillRect(shipX + 10, shipY - 12, 10, 12);
+
+            spawnObstacle();
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                let obs = obstacles[i];
+                obs.y += obs.speed;
+
+                // Iceberg
+                ctx.fillStyle = "#e0f2fe";
+                ctx.beginPath();
+                ctx.moveTo(obs.x + obs.width / 2, obs.y);
+                ctx.lineTo(obs.x + obs.width, obs.y + obs.height);
+                ctx.lineTo(obs.x, obs.y + obs.height);
+                ctx.closePath();
+                ctx.fill();
+
+                if (
+                    shipX < obs.x + obs.width &&
+                    shipX + shipWidth > obs.x &&
+                    shipY < obs.y + obs.height &&
+                    shipY + shipHeight > obs.y
+                ) {
+                    obstacles.splice(i, 1);
+                    triggerQuiz();
+                    return;
+                }
+
+                if (obs.y > canvas.height) {
+                    obstacles.splice(i, 1);
+                    score += 10;
+                    updateUI();
+                }
+            }
+        }
+
+        function triggerQuiz() {
+            clearInterval(gameInterval);
+            gameContainer.classList.add("hidden");
+            quizScreen.classList.remove("hidden");
+
+            const randomQ = gameQuestions[Math.floor(Math.random() * gameQuestions.length)];
+            document.getElementById("question-text").textContent = randomQ.q;
+            
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            randomQ.options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.textContent = opt;
+                btn.classList.add("option-btn");
+                btn.addEventListener("click", () => {
+                    if (index === randomQ.correct) score += 50;
+                    else lives -= 1;
+                    updateUI();
+
+                    if (lives <= 0) {
+                        quizScreen.classList.add("hidden");
+                        finalScoreDisplay.textContent = score;
+                        gameOverScreen.classList.remove("hidden");
+                    } else {
+                        quizScreen.classList.add("hidden");
+                        gameContainer.classList.remove("hidden");
+                        gameInterval = setInterval(updateGame, 1000 / 60);
+                    }
+                });
+                optionsContainer.appendChild(btn);
+            });
+        }
+    </script>
+</body>
+</html>
